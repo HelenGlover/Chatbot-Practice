@@ -1,0 +1,88 @@
+import java.util.Scanner;
+import java.util.Random;
+/**
+ * Create a mini chatbot that will count the rounds and give canned responses
+ * At the end, chatbot will return transcript of conversation
+ * @ Helen Glover
+ * @ February, 2022
+ */
+
+public class Conversation {
+  public static void main(String[] args) {
+    String[] cannedPhrases = {"Yes, that's lovely",
+                              "Hmmm. Please tell me more news",
+                              "Of course",
+                              "Okay",
+                              "Interesting...",
+                              "Indeed"};
+    int cannedAmount = cannedPhrases.length;
+    Random rand = new Random();
+    
+    Scanner conversationStart = new Scanner(System.in);
+    System.out.println("\nWelcome friendly face! My name is Mr. Chatbot and I love interacting with humans because they are so chatty!\n");
+    System.out.println("How many rounds of conversation would you like to have? The more the merrier!\n");
+    
+    int rounds = conversationStart.nextInt();
+    conversationStart.nextLine();
+    String[] transcript = new String[2*rounds];
+    transcript[0] = "Sounds great! How are you doing today?"; //start conversation from 0
+    System.out.println(transcript[0]);
+    
+    int index = -1;
+    for (int i = 0; i < rounds; i++) {
+      String userWords = conversationStart.nextLine();
+      String mirrored;
+      StringBuilder result = new StringBuilder(); //changed mirrored sentence will be appended to StringBuilder//
+      String [] words = userWords.split(" "); //splits the word to allow for iteration
+      boolean givenWord = true;
+      for (String word : words) {
+        if (givenWord) {
+          givenWord = false;
+          }
+        else {
+          result.append(' ');
+          }
+        switch (word) {
+          case "I":
+            word = "you";
+            break;
+          case "me":
+            word = "you";
+            break;
+          case "am":
+            word = "are";
+            break;
+          case "you":
+            word = "I";
+            break;
+          case "my":
+            word = "your";
+            break;
+          case "your":
+            word = "my";
+            break;
+        }
+        result.append(word);
+      }
+      String newVersion = result.toString();
+      if (!newVersion.equals(userWords)) { 
+        mirrored = newVersion;
+        }
+      else { //sentence had no mirrored words, use random canned phrases 
+        mirrored = cannedPhrases[rand.nextInt(cannedAmount)];
+        }
+      System.out.println(mirrored); 
+      transcript[++index] = userWords; 
+      transcript[++index] = mirrored; 
+    }
+
+    System.out.println("Thank you for chatting with me! Come back soon!");
+    System.out.println(" ");
+    System.out.println("---------Transcript of our legendary conversation---------");
+    for (int i = 0; i < transcript.length; i++) { //iterate through conversations length
+      System.out.println(transcript[i]);
+    }
+    System.exit(0);
+  }
+}
+
